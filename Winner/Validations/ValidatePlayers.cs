@@ -33,7 +33,11 @@ namespace Winner
             {
                 return "Duplicate players Name";
             }
-
+            
+            else if(IsPlayerMissing(playingCards).Count > 0)
+            {
+                return "Player Name missing";
+            }
             return errorMessage;
         }
 
@@ -76,7 +80,6 @@ namespace Winner
             return players;
         }
 
-
         private static bool IsPlayerNameHasColon(string[] playingCards)
         {
             var result = true;
@@ -90,6 +93,20 @@ namespace Winner
                 
             }
             return result;
+        }
+
+        private static List<string> IsPlayerMissing(string[] playingCards)
+        {
+            var players = new List<string>();
+            for (int i = 0; i < playingCards.Length; i++)
+            {
+                var names = $"{playingCards[i].Substring(0, playingCards[i].LastIndexOf(':'))}";
+                players.Add(names);
+
+            }
+            
+            return players.Where(x => string.IsNullOrEmpty(x)).ToList();
+
         }
     }
 }
